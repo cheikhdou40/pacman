@@ -1,0 +1,34 @@
+:hardbreaks:
+= 1 Prendre en main le Framework d'affichage
+
+L'ensemble des fonctions gérant l'affichage du jeu vous est fourni, au sein d'un Framework reposant sur SDL 2. Vous n'avez pas besoin de connaitre SDL 2, toutes les fonctions nécessaires pour gérer l'affichage ont été implémentées. Vous allez prendre en main ce Framework avant de commencer à travailler sur le jeu lui-même. Le but est simplement :
+
+* De vérifier l'installation de SDL et tout votre processus de compilation
+
+* De comprendre l'usage de base de ce Framework
+
+. Observez les fichiers dans le projet  :
+
+** Le fichier ``framework.hpp`` : le header du framework, contient la définition des fonction. Ce header est très commenté, vous y trouverez l'ensemble des informations nécessaires à son usage.
+
+** Le fichier ``framework.cpp`` : l'implémentation du Framework. Vous n'avez pas besoin de modifier le contenu de ce fichier (mais vous pouvez l'ouvrir, bien entendu).
+
+** Le répertoire ``resouces/images`` : contient l'ensemble des fichiers de sprites du jeu, au format BMP.
+
+** Le fichier ``main.c`` inclue le header de la bibliothèque du framework, qui se trouve dans le fichier `framework.h`.
+
+
+. Compilez le projet et lancez l'exécution. Vérifiez qu'une fenêtre noir apparait pendant quelques secondes. Cela veut dire que votre projet est configuré et que vous pouvez commencer.
+
+. Créez une boucle gérant l'affichage. Dans cette boucle, vous devez :
+** Ecoutez les entrées au clavier du joueur. En cas d'appui sur la touche Échap, le jeu se termine.
+
+*** Rappel : l'ensemble des codes de touche clavier se trouvent dans la documentation de SDL, accessible sur le https://wiki.libsdl.org/SDL2/SDL_Keycode[site web].
+
+** Affichez pacman au centre de l'écran.
+
+** Le faire se déplacer suivant les commandes de l'utilisateur.
+
+
+NOTE : sous unix, vous devrez installer le package libsdl2-dev ou libsdl2-devel selon votre distribution
+Il faudra modifier certains fichiers, en particulier les ``#include "../include/SDL2/SDL.h"`` à remplacer par par ``#include <SDL2/SDL.h>`` ainsi qu'une ligne dans le CMakeList

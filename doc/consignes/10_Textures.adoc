@@ -1,0 +1,4 @@
+= 10 Textures
+
+Modifiez les textures des fantômes en fonction de leur direction.
+

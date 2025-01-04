@@ -1,0 +1,100 @@
+= 5 Clyde
+
+Nous allons commencer par définir certains principes qui s'appliqueront aux déplacements de tous les fantômes :
+
+* Un fantôme ne fait jamais demi-tour.
+** Sauf s'il se trouve dans un cul-de-sac, il fera alors demi-tour.
+* S'il est dans un couloir ou au niveau d'un virage, il continuera sa route.
+
+La différence entre chaque fantôme sera sa réaction arrivée à une intersection. +
+ +
+
+Nous allons commencer par gérer les déplacements de Clyde, le Orange.
+Clyde se déplace aléatoirement sur la grille sans jamais s'intéresser à Pacman.
+
+* S'il se trouve à une intersection, il décide aléatoirement de la direction.
+
+Nous allons commencer par une fonction simple de déplacement, et nous la complèterons en avançant.
+
+Commençons par lister ce dont cette fonction a besoin :
+
+* La carte du niveau `+level+`
+* La position actuelle de Clyde `+x+` et `+y+`
+* Comme pour Pacman, la direction de Clyde `+dirX+` et `+dirY+`
+
+Cela fait déjà beaucoup de paramètres qu'il faudra passer à d'autres fonctions, et ce n'est pas fini. Pour nous simplifier la vie, nous allons commencer par créer une structure qui représentera les coordonnées d'une case :
+----
+typedef struct Coord Coord;
+struct Coord
+{
+    int x;
+    int y;
+};
+----
+
+Et comme ces données appartiennent à la même entité, un fantôme, nous allons créer une structure Ghost :
+----
+typedef struct Ghost Ghost;
+struct Ghost
+{
+    Coord pos;
+    Coord dir;
+};
+----
+
+Nous avons donc une fonction de déplacement recevant un niveau et un fantôme :
+
+----
+ghostMove(const char ** level, Ghost * ghost)
+----
+
+Nous voulons tout d'abord savoir combien de directions Clyde peut prendre. Créez une fonction `+getPotentialDirection+` qui renvoient un tableau de coordonnées. Le paramètre `+int * nbDir+` permet de récupérer le nombre de directions trouvées.
+
+----
+Coord * getPotentialDirection(const char ** level, const Ghost * ghost, int * nbDir)
+----
+Dans cette fonction, vous devez :
+
+* Trouver le nombre de directions potentielles (où il n'y a pas de mur).
+* Créer un tableau dynamique.
+* Ajouter les cases libres au tableau.
+
+Attention : un fantôme ne fait jamais demi-tour, on retire dès à présent la case d'où vient Clyde (pour cela utilisé le paramètre `+ghost->pos+`).
+ +
+ +
+
+Nous avons maintenant la liste des cases disponibles, nous allons traiter les cas dans l'ordre :
+
+* Il n'y a aucune case disponible : c'est un cul-de-sac, il faut faire demi-tour.
+* Il y a une case disponible : Clyde avance.
+* Il y a deux ou trois cases disponibles : Clyde choisit une direction aléatoire.
+
+
+Nous allons utiliser la fonction `+int rand()+` qui produit des nombres aléatoires en C.
+Voici un exemple de son utilisation :
+----
+#include <stdio.h>
+#include <stdlib.h>
+
+// Il est nécessaire d'ajouter la bibliothèque time.h
+#include <time.h>
+
+
+int main() {
+
+    // On initialise le générateur de nombres.
+    // La "seed" utilisé est le l'intant de d'appel de cette fonction.
+    srand(time(NULL));
+
+    // rand() produit un nombre aléatoire, le modulo le ramène à l'écart souhaité.
+    // Ici un nombre aléatoire entre 0 et 10
+    int random = rand() % 11;
+    return 0;
+}
+----
+
+N'oubliez pas de mettre à jour la direction `+dir+` de Clyde en fonction de la direction choisie
+
+Enfin, comme pour Pacman, il faut vérifier que Clyde ne sort pas des limites du niveau.
+
+Une fois que tout cela fonctionne, vous pouvez passer à la suite.

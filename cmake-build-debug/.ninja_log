@@ -1,0 +1,4 @@
+# ninja log v6
+8	421	7545925554809595	CMakeFiles/pacman.dir/src/firstLevel.c.obj	bf4c4140711c1dd9
+31	184	7545942397896414	CMakeFiles/pacman.dir/src/main.c.obj	46cc0694255f637e
+5	322	7545944377253937	CMakeFiles/pacman.dir/src/framework.c.obj	cd3bbd35391bedf1

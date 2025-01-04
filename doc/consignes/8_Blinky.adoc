@@ -1,0 +1,23 @@
+= 8 Blinky
+
+Blinky doit faire mieux que Inky, il ne va pas cibler pacman, mais essayer de le coincer.
+Pour cela, Blinky va viser la prochaine intersection que rencontrera Pacman.
+
+Nous allons découper cela en deux :
+
+. Trouver la prochaine intersection que rencontrera Pacman.
+. Se déplacer vers ce point.
+
+=== Trouver la prochaine intersection que rencontrera Pacman
+
+Nous voulons trouver une intersection, cela revient à se déplacer jusqu'à trouver une intersection, puis retourner la position de cette case. Vous allez pouvoir vous inspirer de `+ghostMove+` (qui donne la prochaine case où se déplacera une entité) pour créer une fonction `+getPacmanNextIntersec+` récursive.
+
+Pensez aux cas d'arrêt : que se passe-t-il si Pacman est à une intersection ? Que se passe-t-il s'il ne bouge pas ?
+
+Pensez bien à envoyer en copie de Pacman et non l'original, vous ne voulez pas réellement déplacer Pacman.
+
+=== Se déplacer vers l'intersection
+
+Il y a déjà un fantôme qui se déplace vers une position : Inky. Nous appellerons donc sa fonction de déplacement, mais avec comme cible les coordonnées trouvées.
+
+Definissez une constante `+BLINKY_RANDOMNESS+` différente de celle d'Inky qui sera utilisé pour Blinky.

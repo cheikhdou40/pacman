@@ -1,0 +1,105 @@
+= Barème projet
+
+== Qualité du code 
+
+Sur 5 points.
+
+Cette partie évalue le respect des règles de codage qui assurent que le code est facile à comprendre et à maintenir.
+Cette qualité sera déterminée par un outil (Sonarqube) qui utilise une liste de règles.
+
+== Spécifications
+
+Sur 15 points.
+
+Cette partie est la liste des fonctionnalités décrites dans le projet. Elle est découpé en deux :
+
+* Code évalue la structure du code
+* Fonctionnel, qui évalue le comportement du jeu.
+
+Toutes les lignes ne rapportent pas le même nombre de points.
+
+== Code
+
+=== Découpage du code
+
+* Les déclarations des fonctions sont dans les .h
+
+* Les définitions des fonctions sont dans les .c
+
+* Le code est découpé en plusieurs fonctions et fichiers.
+
+=== Structures
+
+* Les caractéristiques de Pacman et les fantômes sont stockés dans une structure.
+
+* Les coordonnées sont stockés dans une structure.
+
+=== Allocation dynamique
+
+* La mémoire allouée est correctement libérée.
+
+=== Aléatoire
+
+* L'aléatoire est correctement géré.
+
+== Fonctionnel
+
+=== Déplacement
+* Le joueur peut utiliser le clavier pour déplacer Pacman.
+
+* Pacman continue d’avancer tant qu’il n’a pas reçu une commande différente.
+
+* Pacman garde en mémoire la dernière commande qu'il a reçue s’il n’a pas pu l’effectuer.
+
+* Pacman et les fantômes ne passent pas à travers les murs
+
+* Lorsqu'ils sortent de l'écran, Pacman et les fantômes apparaissent à l'opposé.
+
+* Un fantôme ne fait jamais demi-tour.
+
+* Un fantôme ne s'arrête jamais.
+
+* Clyde se déplace aléatoirement.
+
+* Pinky suit Pacman s'il le voit.
+
+* Inky suit Pacman.
+
+* Blinky cible la prochaine intersection vers laquelle se dirige Pacman.
+
+=== Affichage
+* Les Pacgum et Super Pacgum disparaissent lorsque Pacman passe dessus.
+
+* L'image de Pacman et des fantômes change en fonction de leur direction.
+
+* Les fantômes deviennent bleu si Pacman mange un Super Pacgum.
+
+
+=== Fin du jeu
+* Le jeu se termine si Pacman et un fantôme se rencontrent.
+
+* Le jeu se termine s'il n'y a plus de Pacgum sur le niveau.
+
+=== Divers
+
+* Pacman peut manger les fantômes bleus, ils retournent alors au centre.
+
+* Le jeu quitte lorsque l'on appuie sur Echap.
+
+== Bonus et malus
+=== Bonus
+* Des fonctionnalités supplémentaires pourront rendre plus indulgente la notation des spécifications, mais ne pardonneront pas des fonctionnalités absentes.
+
+* Un très bon score de qualité (complexité des fonctions faibles, code correctement commenté...), apportera un point bonus.
+
+=== Malus
+
+* -1 point si le jeu est injouable (commandes qui ne répondent pas, freez durant la partie, bug trop impactant...).
+
+* -1 si le programme crash (et que c'est reproductible).
+
+* -2 si le programme ne compile pas.
+
+=== Différences
+
+* S'il y a des différences avec ces consignes qui ont été validées, un fichier README les présente.

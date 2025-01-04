@@ -1,0 +1,15 @@
+= 2 Déplacements sur la grille
+
+Il est maintenant temps d'afficher la grille et de s'y déplacer.
+La fonction `+loadFirstLevel+` initialise le premier niveau sous forme d'un tableau de 21*38 caractères. Voici les correspondances :
+
+* H : un mur
+* . : un pacgum (un point)
+* P I C B : des fantômes
+* O : Pacman
+
+La fonction `+drawLevel+` permet de dessiner le niveau, mais vous devrez vous occuper des personnages vous-même. Pour cela, la fonction `+drawSpriteOnGrid+` et la structure `+Textures+` vous aideront.
+
+Une fois le niveau et Pacman affiché, les déplacements que vous avez développez à la première étape ne sont plus suffisants. Il va falloir gérer les collisions pour empêcher Pacman de passer à travers les murs.
+
+Une dernière chose concernant ses déplacements : lorsque Pacman passe d'un côté de l'écran, il est immédiatement téléporté de l'autre côté.

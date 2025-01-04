@@ -1,0 +1,31 @@
+= 4 Déplacement de pacman partie 2
+
+Vous contrôlez maintenant les déplacements de Pacman avec les touches de votre clavier, mais il y a deux caractéristiques que nous devons encore implémenter :
+
+* Pacman doit continuer d'avancer tant qu'il n'a pas reçu une commande différente.
+* Pacman doit garder en mémoire la dernière commande que vous lui avez donnée s'il n'a pas pu l'effectuer.
+
+Par exemple, dans cette situation, si vous n'appuyez sur aucune touche, Pacman sortira de la fenêtre par la gauche. +
+Par contre, si vous appuyez sur la flèche du bas immédiatement, Pacman sortira par le bas. On ne veut pas avoir à appuyer à nouveau sur la touche au moment exacte ou Pacman passe au-dessus du chemin.
+
+image::resources/4.1.png[]
+
+=== Continuer d'avancer
+
+Pour maintenir un cap, nous allons une notion de direction, représenté sur les deux axes par `+dirX+` et `+dirY+`. +
+
+La direction est l'opération qui vient d'être appliquée à la position.
+Par exemple, aller vers la gauche, c'est-à-dire se décaler d'une case sur l'axe X correspond à `+dirX = -1+` et `+dirY = 0+` +
+Aller vers le bas correspond à `+dirX = 0+` et `+dirY = 1+`
+
+Si vous utilisez `+x+` et `+y+` pour représenter la position de Pacman, continuer à avancer dans la même direction revient à additionner la position et la direction : `+x += dirX+` et `+y += dirY+`
+
+Pour déterminer la nouvelle direction après un changement de direction, vous pouvez soustraire la position actuelle à la nouvelle : `+dirX = newX - x+`
+
+N'oubliez pas de faire tout cela après avoir vérifié que la nouvelle position est bien valide, c'est-à-dire que ce n'est pas un mur.
+
+=== Sauvegarder la prochaine direction
+
+Lorsque Pacman arrive à une intersection, il doit prendre la direction de la dernière commande reçue.
+On pourrait, à chaque cycle, vérifier si Pacman est à une intersection avant d'appliquer la dernière commande reçue, mais ce serait plus compliqué et couteux que de simplement répéter la dernière commande entrée par de l'utilisateur à chaque cycle. +
+Si l'utilisateur entre une commande, vous la sauvegardez puis vous la traitez. Si aucune commande n'est entrée par l'utilisateur, faites comme s'il avait entré la commande que vous avez sauvegardée.

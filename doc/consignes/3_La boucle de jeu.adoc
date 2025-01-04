@@ -1,0 +1,29 @@
+= 3 La boucle de jeu
+
+Si vous êtes arrivé ici, vous avez compris que la plupart des actions du jeu s'effectueront dans une boucle principale.
+Nous allons quelque peu détailler comment fonctionne l'affichage avec la SDL et comment doit s'organiser la boucle principale.
+
+Avec la SDL, vous collez des images sur un fond, comme des autocollants sur une feuille (fonctions draw...), puis vous affichez l'ensemble (fonction update).
+
+A chaque fois que vous faites un update, cela met fin à un cycle de la boucle, update est donc la dernière fonction à appeler dans votre boucle principale.
+
+A chaque cycle, chaque entité du jeu (Pacman et les fantômes) auront l'occasion d'effectuer un déplacement.
+Il faut donc, à chaque cycle, vérifier les conséquences de ces déplacements, et donc les conditions de victoire et défaite.
+
+=== Pacman mange une Pacgum
+
+À chacun des déplacements de Pacman sur une Pacgum (un point `+.+`), Pacman le mange. Il faut donc le supprimer dans `+level+`. +
+Créez une fonction `+void eat(char ** level, int x, int y);+` qui vérifie si la case sur laquelle Pacman vient d'arriver est une Pacgum, et si c'est le cas, la remplace par un espace vide.
+
+=== Condition de victoire
+
+La partie est gagné si Pacman a mangé toutes les Pacgum, créez une fonction `+bool win(const char ** level)+` qui vérifie cela.
+
+Vous voyez ici une nouvelle notion, `+const+`, une constante. Les variables et les paramètres peuvent être déclarés constant, cela veut dire que leur valeur ne pourra pas être modifié après leur déclaration.
+
+Les structures et les tableaux sont volumineux, on veut donc éviter d'en faire une copie à chaque fois qu'on le passe en paramètre.
+Cependant, la fonction `+win+` doit seulement lire le contenu du niveau sans le modifier. En le déclarant constant, on ajoute une sécurité qui nous empêchera de modifier par erreur. En plus, cela rajoute de la clarté en indiquant explicitement à un autre développeur que `+win+` ne modifiera pas `+level+`. On essaiera donc au maximum de rendre les paramètres constants.
+
+=== Condition de défaite
+
+La partie est perdu si Pacman et un fantôme se retrouvent sur la même case. Vous vous inquiéterez de cela une fois que nous aurons au moins un fantôme qui se déplace.

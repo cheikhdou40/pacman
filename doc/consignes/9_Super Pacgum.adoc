@@ -1,0 +1,12 @@
+= 9 Super Pacgum
+
+Il ne reste plus qu'un élément important à ajouter : les Super Pacgum.
+
+Ces grosses billes permettront à Pacman de manger les fantômes.
+
+Lorsque Pacman mange un Super Pacgum :
+
+* Les fantômes font demi-tour
+* Les fantômes deviennent bleu
+* Les fantômes se déplacent aléatoirement (comme Clyde)
+* Si pacman rencontre un fantôme, le fantôme retourne au centre. Il se déplace instantanément au centre, ce n'est pas nécessaire de lui faire faire le chemin de retour comme dans le jeu original.
