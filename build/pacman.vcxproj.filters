@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\cheik\OneDrive\Bureau\pacman\pacman\src\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\cheik\OneDrive\Bureau\pacman\pacman\src\framework.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\cheik\OneDrive\Bureau\pacman\pacman\src\firstLevel.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\cheik\OneDrive\Bureau\pacman\pacman\src\framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\cheik\OneDrive\Bureau\pacman\pacman\src\firstLevel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\cheik\OneDrive\Bureau\pacman\pacman\src\main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\cheik\OneDrive\Bureau\pacman\pacman\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{F659C153-2278-3FA5-8303-1233F9E0CD52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{FC7ACF5D-0672-3277-B712-308ADD70CF9A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

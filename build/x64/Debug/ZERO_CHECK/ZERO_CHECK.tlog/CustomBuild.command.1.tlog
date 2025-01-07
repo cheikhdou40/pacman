@@ -1,0 +1,10 @@
+^C:\USERS\CHEIK\ONEDRIVE\BUREAU\PACMAN\PACMAN\BUILD\CMAKEFILES\AB835A0216635AB8CCA17FF203E4542B\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/cheik/OneDrive/Bureau/pacman/pacman -BC:/Users/cheik/OneDrive/Bureau/pacman/pacman/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/cheik/OneDrive/Bureau/pacman/pacman/build/pacman.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

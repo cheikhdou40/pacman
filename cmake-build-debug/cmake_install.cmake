@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/cheik/OneDrive/Documents/EFREI/ING1 RS S5/Programmation/EFREI_08112024/efrei-c-2024-rs-2/projects/pacman
+# Install script for directory: C:/Users/cheik/OneDrive/Bureau/pacman/pacman
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/cheik/OneDrive/Documents/EFREI/ING1 RS S5/Programmation/EFREI_08112024/efrei-c-2024-rs-2/projects/pacman/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/cheik/OneDrive/Bureau/pacman/pacman/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

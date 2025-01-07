@@ -1,0 +1,3 @@
+C:/Users/cheik/OneDrive/Bureau/pacman/pacman/build/CMakeFiles/pacman.dir
+C:/Users/cheik/OneDrive/Bureau/pacman/pacman/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/cheik/OneDrive/Bureau/pacman/pacman/build/CMakeFiles/ZERO_CHECK.dir

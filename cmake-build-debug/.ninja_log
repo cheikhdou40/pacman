@@ -1,4 +1,22 @@
 # ninja log v6
-8	421	7545925554809595	CMakeFiles/pacman.dir/src/firstLevel.c.obj	bf4c4140711c1dd9
-31	184	7545942397896414	CMakeFiles/pacman.dir/src/main.c.obj	46cc0694255f637e
-5	322	7545944377253937	CMakeFiles/pacman.dir/src/framework.c.obj	cd3bbd35391bedf1
+20	175	7578936608306867	CMakeFiles/pacman.dir/src/firstLevel.c.obj	57fe1728b230ba37
+3	879	7579064300558477	CMakeFiles/pacman.dir/src/main.c.obj	e1345650f35bbe73
+28	1511	7578933303785403	CMakeFiles/pacman.dir/src/framework.c.obj	6d6e58a867f1051b
+881	3645	7579064309336007	pacman.exe	6df5bdb8cd99ebf2
+26	463	7579065906097222	build.ninja	4f103e0d0e22325f
+4	288	7579068505207165	CMakeFiles/pacman.dir/src/main.c.obj	e1345650f35bbe73
+289	4122	7579068508058217	pacman.exe	6df5bdb8cd99ebf2
+20	622	7579795166738458	CMakeFiles/pacman.dir/src/main.c.obj	e1345650f35bbe73
+623	4065	7579795172765350	pacman.exe	6df5bdb8cd99ebf2
+30	283	7579800560053758	CMakeFiles/pacman.dir/src/framework.c.obj	6d6e58a867f1051b
+284	3821	7579800562597100	pacman.exe	6df5bdb8cd99ebf2
+3	208	7579800780639256	CMakeFiles/pacman.dir/src/framework.c.obj	6d6e58a867f1051b
+208	2190	7579800782686583	pacman.exe	6df5bdb8cd99ebf2
+2	155	7579801088767256	CMakeFiles/pacman.dir/src/framework.c.obj	6d6e58a867f1051b
+155	1202	7579801090298339	pacman.exe	6df5bdb8cd99ebf2
+3	167	7579801321313032	CMakeFiles/pacman.dir/src/framework.c.obj	6d6e58a867f1051b
+167	1383	7579801322954758	pacman.exe	6df5bdb8cd99ebf2
+2	161	7579801547394482	CMakeFiles/pacman.dir/src/framework.c.obj	6d6e58a867f1051b
+161	1270	7579801548990994	pacman.exe	6df5bdb8cd99ebf2
+6	187	7579804575441490	CMakeFiles/pacman.dir/src/framework.c.obj	6d6e58a867f1051b
+188	3022	7579804577256087	pacman.exe	6df5bdb8cd99ebf2
