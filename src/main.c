@@ -63,9 +63,12 @@ Coord *getPotentialDirections(char **level, Ghost *ghost, int *nbDir) {
         int newX = ghost->pos.x + directions[i].x;
         int newY = ghost->pos.y + directions[i].y;
 
-        if (level[newY][newX] != 'H' &&
+        if (newX >= 0 && newY >= 0 && newX < 28 && newY < 31 &&
+            level[newY][newX] != 'H' &&
             !(directions[i].x == -ghost->dir.x && directions[i].y == -ghost->dir.y)) {
-            potentialMoves[(*nbDir)++] = (Coord){newX, newY};
+            if (*nbDir < 4) {  // Empêche l'écriture hors limite
+                potentialMoves[(*nbDir)++] = (Coord){newX, newY};
+            }
         }
     }
 
@@ -76,10 +79,7 @@ void ghostMove(char **level, Ghost *ghost) {
     int nbMoves;
     Coord *potentialMoves = getPotentialDirections(level, ghost, &nbMoves);
 
-    if (nbMoves == 0) {
-        ghost->dir.x = -ghost->dir.x;
-        ghost->dir.y = -ghost->dir.y;
-    } else {
+    if (nbMoves > 0) {
         int randomIndex = rand() % nbMoves;
         Coord newPos = potentialMoves[randomIndex];
         ghost->dir.x = newPos.x - ghost->pos.x;
@@ -159,7 +159,9 @@ int main(int argc, char *argv[]) {
                 break;
         }
 
-        if (level[pacmanY + nextDirY][pacmanX + nextDirX] != 'H') {
+        if (pacmanY + nextDirY >= 0 && pacmanY + nextDirY < 31 &&
+            pacmanX + nextDirX >= 0 && pacmanX + nextDirX < 28 &&
+            level[pacmanY + nextDirY][pacmanX + nextDirX] != 'H') {
             dirX = nextDirX;
             dirY = nextDirY;
         }
@@ -167,7 +169,8 @@ int main(int argc, char *argv[]) {
         newX = pacmanX + dirX;
         newY = pacmanY + dirY;
 
-        if (level[newY][newX] != 'H') {
+        if (newY >= 0 && newY < 31 && newX >= 0 && newX < 28 &&
+            level[newY][newX] != 'H') {
             pacmanX = newX;
             pacmanY = newY;
             eat(level, pacmanX, pacmanY);
@@ -192,7 +195,9 @@ int main(int argc, char *argv[]) {
     printf("Libération des ressources...\n");
 
     for (int i = 0; i < 31; i++) {
-        free(level[i]);
+        if (level[i] != NULL) {
+            free(level[i]);
+        }
     }
     free(level);
 
