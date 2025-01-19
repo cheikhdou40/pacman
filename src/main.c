@@ -221,7 +221,7 @@ void inkyMove(char **level, Ghost *ghost, Coord pacmanPos) {
     } else {
         srand(time(NULL));
         if (rand() % INKY_RANDOMNESS == 0) {
-            // Prend une direction aléatoire
+            // 🔀 1 chance sur INKY_RANDOMNESS de prendre une direction aléatoire
             int randomIndex = rand() % nbMoves;
             ghost->dir = (Coord){
                     potentialMoves[randomIndex].x - ghost->pos.x,
@@ -229,26 +229,57 @@ void inkyMove(char **level, Ghost *ghost, Coord pacmanPos) {
             };
             ghost->pos = potentialMoves[randomIndex];
         } else {
-            // Prend la direction qui réduit la plus grande différence avec Pac-Man
-            int minDistIndex = 0;
-            int minDist = abs(pacmanPos.x - potentialMoves[0].x) + abs(pacmanPos.y - potentialMoves[0].y);
+            // 📌 7.1, 7.2, 7.3 : Trouver la meilleure direction selon Pac-Man
 
-            for (int i = 1; i < nbMoves; i++) {
-                int dist = abs(pacmanPos.x - potentialMoves[i].x) + abs(pacmanPos.y - potentialMoves[i].y);
-                if (dist < minDist) {
+            int dx = pacmanPos.x - ghost->pos.x;
+            int dy = pacmanPos.y - ghost->pos.y;
+
+            int bestIndex = -1;
+            int minDist = 9999;  // Grande valeur par défaut
+
+            // 🔍 Parcourir les directions possibles et choisir la meilleure
+            for (int i = 0; i < nbMoves; i++) {
+                int moveDx = potentialMoves[i].x - ghost->pos.x;
+                int moveDy = potentialMoves[i].y - ghost->pos.y;
+
+                int newDx = abs(dx - moveDx);
+                int newDy = abs(dy - moveDy);
+
+                int dist = newDx + newDy;
+
+                // 📌 7.1 : Priorité à réduire la plus grande différence (horizontale ou verticale)
+                if (abs(dx) > abs(dy) && moveDx != 0) {
+                    // Si la distance horizontale est plus grande, on privilégie un déplacement horizontal
+                    bestIndex = i;
+                    break;  // On a trouvé la meilleure option, on s'arrête ici
+                } else if (abs(dy) > abs(dx) && moveDy != 0) {
+                    // Sinon, si la distance verticale est plus grande, on privilégie un déplacement vertical
+                    bestIndex = i;
+                    break;
+                } else if (dist < minDist) {
+                    // Si aucune direction ne rapproche vraiment Inky, on prend la plus courte
                     minDist = dist;
-                    minDistIndex = i;
+                    bestIndex = i;
                 }
             }
+
+            //  7.3 : Si aucune direction ne rapproche de Pac-Man, choisir une au hasard parmi les possibles
+            if (bestIndex == -1) {
+                bestIndex = rand() % nbMoves;
+            }
+
+            // Appliquer le meilleur mouvement trouvé
             ghost->dir = (Coord){
-                    potentialMoves[minDistIndex].x - ghost->pos.x,
-                    potentialMoves[minDistIndex].y - ghost->pos.y
+                    potentialMoves[bestIndex].x - ghost->pos.x,
+                    potentialMoves[bestIndex].y - ghost->pos.y
             };
-            ghost->pos = potentialMoves[minDistIndex];
+            ghost->pos = potentialMoves[bestIndex];
         }
     }
+
     free(potentialMoves);
 }
+
 
 void blinkyMove(char **level, Ghost *ghost, Coord pacmanPos, Coord pacmanDir) {
     int nbMoves;
