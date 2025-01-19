@@ -39,7 +39,9 @@ struct Textures
     SDL_Texture * textureClydeU;
     SDL_Texture * textureClydeD;
     SDL_Texture * textureBLue;
-    SDL_Texture * textureGhostBlue;
+    SDL_Texture * textureBlue;
+    SDL_Texture *textureGhost;
+
     int cellSize;
 
 };

@@ -39,13 +39,33 @@ typedef struct {
 // Variable pour le score de Pac-Man
 int score = 0;
 
+bool superMode = false;
+int superModeTimer = 0;
+
+
 // Fonction qui mange les gums pour Pac-Man
-void eat(char **level, int x, int y) {
+void eat(char **level, int x, int y, Ghost *ghosts, Textures textures) {
     if (level[y][x] == '.') {
         level[y][x] = ' ';
-        score += 10; // Chaque gum rapporte 10 points
+        score += 10;
+    }
+    else if (level[y][x] == 'O') {
+        level[y][x] = ' ';
+        score += 50;
+        superMode = true;
+        superModeTimer = 300;
+
+        // 🔹 Fantômes deviennent bleus, font demi-tour et adoptent un déplacement aléatoire
+        for (int i = 0; i < 4; i++) {
+            ghosts[i].dir.x = -ghosts[i].dir.x;
+            ghosts[i].dir.y = -ghosts[i].dir.y;
+            ghosts[i].texture = textures.textureBlue;
+        }
     }
 }
+
+
+
 
 // Fonction pour afficher le score actuel
 void displayScore() {
@@ -66,8 +86,24 @@ bool win(char **level, int rows, int cols) {
 
 // Fonction pour vérifier si Pac-Man a perdu
 bool defeat(int pacmanX, int pacmanY, Ghost *ghost) {
-    return pacmanX == ghost->pos.x && pacmanY == ghost->pos.y;
+    if (pacmanX == ghost->pos.x && pacmanY == ghost->pos.y) {
+        if (superMode) {
+            // 🔹 Le fantôme retourne immédiatement au centre
+            ghost->pos.x = 14;
+            ghost->pos.y = 14;
+            ghost->dir.x = 0;
+            ghost->dir.y = -1;
+            score += 200;
+            return false;
+        } else {
+            return true;
+        }
+    }
+    return false;
 }
+
+
+
 
 // Fonction pour obtenir les directions possibles pour un fantôme
 Coord *getPotentialDirections(char **level, Ghost *ghost, int *nbDir) {
@@ -295,9 +331,14 @@ void blinkyMove(char **level, Ghost *ghost, Coord pacmanPos, Coord pacmanDir) {
         // Trouver la prochaine intersection que rencontrera Pac-Man
         Coord target = getPacmanNextIntersec(level, pacmanPos, pacmanDir);
 
+        // ✅ Correction : Si Pac-Man ne bouge pas ou est déjà à une intersection, Blinky vise Pac-Man directement
+        if (pacmanDir.x == 0 && pacmanDir.y == 0 || (target.x == pacmanPos.x && target.y == pacmanPos.y)) {
+            target = pacmanPos;
+        }
+
         srand(time(NULL));
         if (rand() % BLINKY_RANDOMNESS == 0) {
-            // Prend une direction aléatoire
+            // Blinky prend une direction aléatoire
             int randomIndex = rand() % nbMoves;
             ghost->dir = (Coord){
                     potentialMoves[randomIndex].x - ghost->pos.x,
@@ -305,31 +346,38 @@ void blinkyMove(char **level, Ghost *ghost, Coord pacmanPos, Coord pacmanDir) {
             };
             ghost->pos = potentialMoves[randomIndex];
         } else {
-            // Prend la direction qui rapproche le plus de l'intersection
-            int minDistIndex = 0;
+            // ✅ Correction : Blinky suit une logique similaire à Inky pour se rapprocher de la cible
+            int bestIndex = 0;
             int minDist = abs(target.x - potentialMoves[0].x) + abs(target.y - potentialMoves[0].y);
 
             for (int i = 1; i < nbMoves; i++) {
                 int dist = abs(target.x - potentialMoves[i].x) + abs(target.y - potentialMoves[i].y);
                 if (dist < minDist) {
                     minDist = dist;
-                    minDistIndex = i;
+                    bestIndex = i;
                 }
             }
             ghost->dir = (Coord){
-                    potentialMoves[minDistIndex].x - ghost->pos.x,
-                    potentialMoves[minDistIndex].y - ghost->pos.y
+                    potentialMoves[bestIndex].x - ghost->pos.x,
+                    potentialMoves[bestIndex].y - ghost->pos.y
             };
-            ghost->pos = potentialMoves[minDistIndex];
+            ghost->pos = potentialMoves[bestIndex];
         }
     }
     free(potentialMoves);
 }
 
 
+
 // Fonction pour gérer les mouvements spécifiques aux fantômes
 // Fonction pour gérer les mouvements spécifiques aux fantômes
 void specificGhostMovement(char **level, Ghost *ghost, Coord pacmanPos, Coord pacmanDir) {
+    if (superMode) {
+        // 🔹 Tous les fantômes se déplacent aléatoirement comme Clyde
+        clydeMove(level, ghost);
+        return;
+    }
+
     switch (ghost->name) {
         case CLYDE:
             clydeMove(level, ghost);
@@ -348,6 +396,8 @@ void specificGhostMovement(char **level, Ghost *ghost, Coord pacmanPos, Coord pa
             break;
     }
 }
+
+
 
 
 // Variables globales pour les directions de Pac-Man
@@ -410,73 +460,54 @@ int main(int argc, char *argv[]) {
     while (running) {
         int input = getInput();
 
-        // Gestion des entrées utilisateur pour Pac-Man
+        // 🔹 Gestion des entrées pour Pac-Man
         switch (input) {
-            case SDLK_ESCAPE: // Fermeture du jeu si Échap est pressé
-                running = 0;
-                break;
-            case SDLK_UP:
-                nextDirX = 0;
-                nextDirY = -1;
-                break;
-            case SDLK_DOWN:
-                nextDirX = 0;
-                nextDirY = 1;
-                break;
-            case SDLK_LEFT:
-                nextDirX = -1;
-                nextDirY = 0;
-                break;
-            case SDLK_RIGHT:
-                nextDirX = 1;
-                nextDirY = 0;
-                break;
+            case SDLK_ESCAPE: running = 0; break;
+            case SDLK_UP: nextDirX = 0; nextDirY = -1; break;
+            case SDLK_DOWN: nextDirX = 0; nextDirY = 1; break;
+            case SDLK_LEFT: nextDirX = -1; nextDirY = 0; break;
+            case SDLK_RIGHT: nextDirX = 1; nextDirY = 0; break;
         }
 
-        // Validation de la prochaine direction
-        if (pacmanY + nextDirY >= 0 && pacmanY + nextDirY < 31 &&
-            pacmanX + nextDirX >= 0 && pacmanX + nextDirX < 28 &&
-            level[pacmanY + nextDirY][pacmanX + nextDirX] != 'H') {
+        // 🔹 Validation de la direction
+        if (level[pacmanY + nextDirY][pacmanX + nextDirX] != 'H') {
             dirX = nextDirX;
             dirY = nextDirY;
         }
 
-        // Mise à jour de la position de Pac-Man
+        // 🔹 Mise à jour de la position de Pac-Man
         int newX = pacmanX + dirX;
         int newY = pacmanY + dirY;
-
-        if (newY >= 0 && newY < 31 && newX >= 0 && newX < 28 &&
-            level[newY][newX] != 'H') {
+        if (level[newY][newX] != 'H') {
             pacmanX = newX;
             pacmanY = newY;
-            eat(level, pacmanX, pacmanY); // Pac-Man mange une pacgum
+            eat(level, pacmanX, pacmanY, ghosts, textures);
         }
 
-        // Gestion des téléportations de Pac-Man aux bords
-        if (pacmanX < 0) pacmanX = 27; // Passage du côté gauche au droit
-        if (pacmanX > 27) pacmanX = 0; // Passage du côté droit au gauche
-        if (pacmanY < 0) pacmanY = 30; // Passage du haut vers le bas
-        if (pacmanY > 30) pacmanY = 0; // Passage du bas vers le haut
+        // 🔹 Gestion du Super Mode
+        if (superMode) {
+            superModeTimer--;
+            if (superModeTimer <= 0) {
+                superMode = false;
+                for (int i = 0; i < 4; i++) {
+                    ghosts[i].texture = textures.textureGhost;
+                }
+            }
+        }
 
-        // Déplacement des fantômes
+        // 🔹 Déplacement des fantômes
         for (int i = 0; i < 4; i++) {
             specificGhostMovement(level, &ghosts[i], (Coord){pacmanX, pacmanY}, (Coord){dirX, dirY});
         }
 
-
-
-
-        // Affichage du score actuel
-        displayScore();
-
-        // Vérification des conditions de victoire
+        // 🔹 Vérification de la victoire
         if (win(level, 31, 28)) {
             printf("Vous avez gagné !\n");
             running = 0;
         }
 
-        // Vérification des conditions de défaite
-        for (int i = 0; i < 4; i++) { // Vérifie avec tous les fantômes
+        // 🔹 Vérification de la défaite
+        for (int i = 0; i < 4; i++) {
             if (defeat(pacmanX, pacmanY, &ghosts[i])) {
                 printf("Vous avez perdu !\n");
                 running = 0;
@@ -484,20 +515,17 @@ int main(int argc, char *argv[]) {
             }
         }
 
-
-
-        // Rendu des sprites et mise à jour
+        // 🔹 Affichage des sprites
         drawLevel(level, 31, 28, &params, &textures);
         drawSpriteOnGrid(textures.texturePacman, pacmanX, pacmanY, 0, &params);
         for (int i = 0; i < 4; i++) {
             drawSpriteOnGrid(ghosts[i].texture, ghosts[i].pos.x, ghosts[i].pos.y, 0, &params);
         }
 
-
         update(&params);
     }
 
-    printf("Libération des ressources...\n");
+
 
     // Libération des ressources allouées pour le niveau
     for (int i = 0; i < 31; i++) {
