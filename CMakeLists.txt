@@ -11,7 +11,7 @@ include_directories(src)
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
-# Add your source files
+# Add source files
 add_executable(pacman
         include/SDL2/begin_code.h
         include/SDL2/close_code.h

@@ -11,7 +11,7 @@
 #include "firstLevel.h"
 #include <time.h>
 #define INKY_RANDOMNESS 3
-#define BLINKY_RANDOMNESS 4  // Ajustable pour le rendre plus ou moins imprévisible
+#define BLINKY_RANDOMNESS 4  
 
 
 
@@ -397,7 +397,39 @@ void specificGhostMovement(char **level, Ghost *ghost, Coord pacmanPos, Coord pa
     }
 }
 
+void updateGhostTexture(Ghost *ghost, Textures *textures) {
+    if (superMode) {
+        ghost->texture = textures->textureBlue;  // 🔹 Mode "Peur"
+        return;
+    }
 
+    switch (ghost->name) {
+        case CLYDE:
+            if (ghost->dir.x == 1) ghost->texture = textures->textureClyde;
+            else if (ghost->dir.x == -1) ghost->texture = textures->textureClydeL;
+            else if (ghost->dir.y == 1) ghost->texture = textures->textureClydeD;
+            else if (ghost->dir.y == -1) ghost->texture = textures->textureClydeU;
+            break;
+        case PINKY:
+            if (ghost->dir.x == 1) ghost->texture = textures->texturePinky;
+            else if (ghost->dir.x == -1) ghost->texture = textures->texturePinkyL;
+            else if (ghost->dir.y == 1) ghost->texture = textures->texturePinkyD;
+            else if (ghost->dir.y == -1) ghost->texture = textures->texturePinkyU;
+            break;
+        case INKY:
+            if (ghost->dir.x == 1) ghost->texture = textures->textureInky;
+            else if (ghost->dir.x == -1) ghost->texture = textures->textureInkyL;
+            else if (ghost->dir.y == 1) ghost->texture = textures->textureInkyD;
+            else if (ghost->dir.y == -1) ghost->texture = textures->textureInkyU;
+            break;
+        case BLINKY:
+            if (ghost->dir.x == 1) ghost->texture = textures->textureBlinky;
+            else if (ghost->dir.x == -1) ghost->texture = textures->textureBlinkyL;
+            else if (ghost->dir.y == 1) ghost->texture = textures->textureBlinkyD;
+            else if (ghost->dir.y == -1) ghost->texture = textures->textureBlinkyU;
+            break;
+    }
+}
 
 
 // Variables globales pour les directions de Pac-Man
@@ -418,15 +450,28 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Chargement des textures
     printf("Chargement des textures...\n");
     textures.texturePacman = GetTexture("pacman.bmp", &params);
     textures.textureDot = GetTexture("dot.bmp", &params);
     textures.textureWall = GetTexture("wall.bmp", &params);
     textures.textureClyde = GetTexture("clyde.bmp", &params);
+    textures.textureClydeD = GetTexture("clydeD.bmp", &params);
+    textures.textureClydeL = GetTexture("clydeL.bmp", &params);
+    textures.textureClydeU = GetTexture("clydeU.bmp", &params);
     textures.texturePinky = GetTexture("pinky.bmp", &params);
+    textures.texturePinkyD = GetTexture("pinkyD.bmp", &params);
+    textures.texturePinkyL = GetTexture("pinkyL.bmp", &params);
+    textures.texturePinkyU = GetTexture("pinkyU.bmp", &params);
     textures.textureInky = GetTexture("inky.bmp", &params);
-    textures.textureBlinky = GetTexture("blinky.bmp", &params); // Suppression de ghost_blue.bmp
+    textures.textureInkyD = GetTexture("inkyD.bmp", &params);
+    textures.textureInkyL = GetTexture("inkyL.bmp", &params);
+    textures.textureInkyU = GetTexture("inkyU.bmp", &params);
+    textures.textureBlinky = GetTexture("blinky.bmp", &params);
+    textures.textureBlinkyD = GetTexture("blinkyD.bmp", &params);
+    textures.textureBlinkyL = GetTexture("blinkyL.bmp", &params);
+    textures.textureBlinkyU = GetTexture("blinkyU.bmp", &params);
+    textures.textureBlue = GetTexture("blue.bmp", &params);  // 🔹 Mode effrayé
+
 
     if (textures.texturePacman == NULL || textures.textureDot == NULL || textures.textureWall == NULL ||
         textures.textureClyde == NULL || textures.texturePinky == NULL || textures.textureInky == NULL ||
@@ -490,14 +535,16 @@ int main(int argc, char *argv[]) {
             if (superModeTimer <= 0) {
                 superMode = false;
                 for (int i = 0; i < 4; i++) {
-                    ghosts[i].texture = textures.textureGhost;
+                    updateGhostTexture(&ghosts[i], &textures);
+                    // 🔹 Réinitialisation des textures
                 }
             }
         }
 
-        // 🔹 Déplacement des fantômes
+        // 🔹 Déplacement et mise à jour des textures des fantômes
         for (int i = 0; i < 4; i++) {
             specificGhostMovement(level, &ghosts[i], (Coord){pacmanX, pacmanY}, (Coord){dirX, dirY});
+            updateGhostTexture(&ghosts[i], &textures); // 🔹 Mise à jour de la texture
         }
 
         // 🔹 Vérification de la victoire
@@ -524,6 +571,7 @@ int main(int argc, char *argv[]) {
 
         update(&params);
     }
+
 
 
 
